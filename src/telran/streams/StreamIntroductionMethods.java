@@ -4,7 +4,10 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.function.Consumer;
+import java.util.function.IntSupplier;
 import java.util.function.Predicate;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class StreamIntroductionMethods {
 static public int sumIf(int ar[], Predicate<Integer> predicate) {
@@ -28,12 +31,11 @@ static public void forEachIf(int ar[],
 static public int[] getRandomArray(int fromInclusive, int toExclusive, int nNumbers) {
 	return new Random().ints(nNumbers, fromInclusive, toExclusive).toArray();
 }
+
 static public void displayShuffle(int ar[]) {
-	//TODO
-	//prints out a given array in shuffled order
-	// example, array: [10, 20, 30,40], possible shuffling printing 30, 10, 40, 20
-	//no sorting
-	//no additional arrays, no any collections, no using standard shuffle method
-	//one code line
+	new Random().ints(0, ar.length).distinct().limit(ar.length).forEach(n -> System.out.println(ar[n]));
+}
+static public int [] randomNnumsFromMinToMax(MinMaxQuantity n) {
+	return new Random().ints(n.min(), n.max()+1).distinct().limit(n.nRandomNumbers()).toArray();
 }
 }
