@@ -9,9 +9,6 @@ public class SportLoto {
 
 	public static void main(String[] args) {
 		try {
-			if (args.length<3) {
-				throw new Exception("Enter the data: min, max, and the number of random numbers in integer format");
-			}
 			MinMaxQuantity minMaxQuantity = getMinMaxQuantity(args);
 			displayShuffle(randomNnumsFromMinToMax(minMaxQuantity));
 		} catch (RuntimeException e) {
@@ -22,10 +19,13 @@ public class SportLoto {
 	}
 
 	private static MinMaxQuantity getMinMaxQuantity(String[] args) throws Exception {
-				int min = getMin(args);
-				int max = getMax(args);
-				int nRandomNumbers = getNRandomNumbers(args);
-				return new MinMaxQuantity(min,max,nRandomNumbers);
+		if (args.length<3) {
+			throw new Exception("Enter the data: min, max, and the number of random numbers in integer format");
+		}
+		int min = getMin(args);
+		int max = getMax(args);
+		int nRandomNumbers = getNRandomNumbers(args);
+		return new MinMaxQuantity(min,max,nRandomNumbers);
 	}
 	
 	private static int getMin(String[] args) throws Exception {
