@@ -49,11 +49,11 @@ Colledge colledge = new Colledge(new Student[] {st1, st2, st3});
 	static private IntSummaryStatistics getHoursStatistics(Colledge col) {
 		return Stream.of(col.students).mapToInt(s -> s.hours()).summaryStatistics();
 	}
+	
 	private static Student[] sortStudents(Colledge col) {
 		return Arrays.stream(col.students)
-//			    .sorted(Comparator.comparingInt(Student::hours).reversed()) 
-				.sorted((a,b) -> Integer.compare(b.hours(), a.hours()))
-			    .sorted(Comparator.comparingDouble((Student s) -> -Arrays.stream(s.marks()).average().orElse(0.0))) 
-			    .toArray(Student[]::new);
-	}
+				.sorted(Comparator.comparingDouble((Student s) -> Arrays.stream(s.marks()).average().orElse(0.0))
+				.thenComparingInt(Student::hours).reversed())
+				.toArray(Student[]::new);
+	    }
 }
