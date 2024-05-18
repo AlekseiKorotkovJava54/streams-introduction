@@ -2,14 +2,19 @@ package telran.streams.students;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.IntSummaryStatistics;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.junit.jupiter.api.Test;
 
 class ColledgeTests {
-private static final String NAME1 = null;
-private static final String NAME2 = null;
-private static final String NAME3 = null;
+private static final String NAME1 = "A";
+private static final String NAME2 = "B";
+private static final String NAME3 = "C";
 private static final int HOURS1 = 100;
 private static final int HOURS2 = 100;
 private static final int HOURS3 = 150;
@@ -39,23 +44,16 @@ Colledge colledge = new Colledge(new Student[] {st1, st2, st3});
 		assertEquals(80, iss.getMax());
 	}
 	private static IntSummaryStatistics getMarksStatistics(Colledge coll) {
-		// TODO Auto-generated method stub
-		//returns summary statistics for marks of all colledge's students
-		return null;
+		return StreamSupport.stream(coll.spliterator(), false).flatMapToInt(s -> IntStream.of(s.marks())).summaryStatistics();
 	}
 	static private IntSummaryStatistics getHoursStatistics(Colledge col) {
-		// TODO Auto-generated method stub
-		//returns IntSummaryStatistics of hours for all colledge's students
-		return null;
+		return Stream.of(col.students).mapToInt(s -> s.hours()).summaryStatistics();
 	}
 	private static Student[] sortStudents(Colledge col) {
-		// TODO
-		//consider getting stream from Iterable
-		//returns array of students sorted in descending order of the average marks
-		//in the case average marks are equaled there will be compared hours
-		//one code line
-		return null;
+		return Arrays.stream(col.students)
+//			    .sorted(Comparator.comparingInt(Student::hours).reversed()) 
+				.sorted((a,b) -> Integer.compare(b.hours(), a.hours()))
+			    .sorted(Comparator.comparingDouble((Student s) -> -Arrays.stream(s.marks()).average().orElse(0.0))) 
+			    .toArray(Student[]::new);
 	}
-	
-
 }
